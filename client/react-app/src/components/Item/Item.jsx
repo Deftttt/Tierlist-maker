@@ -12,6 +12,8 @@ const SortableItem = (props) => {
     transition
   } = useSortable({ id: props.id });
 
+  const url = `http://localhost:8080/images/${props.tierlistId}/${props.image}`;
+
   return (
     <div
       className="sortable-item"
@@ -23,6 +25,9 @@ const SortableItem = (props) => {
         transition
       }}
     >
+      <div className="item-image-wrapper">
+        {props.image && <img className="item-image" src={url} alt="Photo" />}
+      </div>
       <div className="item-text">{props.itemName}</div>
     </div>
   );

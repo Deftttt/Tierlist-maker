@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import TierList from './TierList';
-import { geTierListById, updateTierList, addTier } from '../../services/TierListService';
+import AddItem from './AddItem';
+import { geTierListById, updateTierList, addTier, addItem } from '../../services/TierListService';
 
 function TierListPage() {
   const { tierListId } = useParams();
@@ -30,7 +31,6 @@ function TierListPage() {
 
 
   useEffect(()=> {
-    console.log("XDDDDDD2");
     saveTierListToDatabase();
   }, [tierListData])
 
@@ -73,6 +73,17 @@ function TierListPage() {
       const updatedTiers = response.data.tiers;
       setTierListData({ ...tierListData, tiers: updatedTiers });
   };
+
+  /*
+  const handleAddItem = async (tierListId, files, itemName) => {
+    e.preventDefault();
+    try {
+      await addItem(tierListId, files, itemName);
+    } catch (error) {
+      console.error('Błąd podczas dodawania itemu:', error);
+    }
+  };
+  */
   
 
   if (!tierListData) {
@@ -86,6 +97,8 @@ function TierListPage() {
       ) : (
         <p>Loading...</p>
       )}
+
+      <AddItem tierListId={tierListData.id}/>
       <button onClick={saveTierListToDatabase}>Zapisz</button>
     </div>
   );

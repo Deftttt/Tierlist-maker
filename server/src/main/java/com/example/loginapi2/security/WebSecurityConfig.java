@@ -58,6 +58,8 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(registry -> registry
                         //.requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                         .requestMatchers("/").permitAll()
+                        .requestMatchers("/images/**").permitAll()
+                        .requestMatchers("/resources/**").permitAll()
                         .requestMatchers("/auth/**").permitAll()
                         //.requestMatchers("/users/**").permitAll()
                         .requestMatchers("/admin/**").hasAuthority("ADMIN")

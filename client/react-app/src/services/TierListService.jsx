@@ -32,6 +32,17 @@ export const updateTierList = (tierlistId, tierlistData) => {
   return api.put(`/${tierlistId}`, tierlistDto, { headers: authHeader() });
 };
 
+export const addItem = (tierListId, files, itemName) => {
+  const formData = new FormData();
+  files.forEach((file) => formData.append('files', file));
+  formData.append('itemName', itemName);
+
+  return api.post(`/${tierListId}/items`, formData, {
+    headers: {
+      ...authHeader()
+    }
+  });
+};
 
 const mapToTierListDto = (tierlistData) => {
 

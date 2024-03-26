@@ -1,24 +1,37 @@
 /* style.css */
 
 .sortable-item {
-    width: 100px;
-    height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid rgb(0, 255, 76);
-    border-radius: 5px;
-    margin: 15px;
-    user-select: none;
-    cursor: grab;
-    box-sizing: border-box;
-  }
+  width: 100px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgb(0, 255, 76);
+  border-radius: 5px;
+  margin: 15px;
+  user-select: none;
+  cursor: grab;
+  box-sizing: border-box;
+}
 
-  .item-text {
-    text-align: center;
-    font-size: smaller;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    color: brown;
-  }
+.item-text {
+  text-align: center;
+  font-size: smaller;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: brown;
+}
+
+.item-image-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.item-image {
+  max-width: 80px;
+  max-height: 80px;
+}

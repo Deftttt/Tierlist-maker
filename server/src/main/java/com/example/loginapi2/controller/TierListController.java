@@ -1,20 +1,19 @@
 package com.example.loginapi2.controller;
 
 
+import com.example.loginapi2.model.Tier;
 import com.example.loginapi2.model.TierList;
-import com.example.loginapi2.model.User;
 import com.example.loginapi2.model.dto.TierDto;
 import com.example.loginapi2.model.dto.TierListDto;
-import com.example.loginapi2.model.dto.UserDto;
 import com.example.loginapi2.security.UserPrincipal;
 import com.example.loginapi2.service.TierListService;
-import com.example.loginapi2.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -60,6 +59,14 @@ public class TierListController {
     public TierList addTier(@PathVariable Long id, @RequestBody TierDto tierDto) {
         return tierListService.addTierToTierList(id, tierDto);
     }
+
+    @PostMapping("/tierlists/{id}/items")
+    @PreAuthorize("hasAuthority('ADMIN') or @tierListService.isTierListOwnedByUser(#id, principal.userId)")
+    public Tier addItem(@PathVariable Long id, @RequestParam(defaultValue  = "itemName", required = false) String itemName, @RequestParam("files") MultipartFile[] files) throws IOException {
+        return tierListService.addItemToTierList2(id, itemName, files);
+    }
+
+
 
 
 
