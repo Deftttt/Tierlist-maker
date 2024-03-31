@@ -9,6 +9,7 @@ import com.example.loginapi2.model.dto.TierListDto;
 import com.example.loginapi2.repository.TierListRepository;
 import com.example.loginapi2.repository.TierRepository;
 import com.example.loginapi2.repository.UserRepository;
+import com.example.loginapi2.util.Constants;
 import lombok.RequiredArgsConstructor;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.stereotype.Service;
@@ -19,9 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -54,9 +53,25 @@ public class TierListService {
     public TierList createTierList(Long userId, TierListDto tierListDto) {
         TierList tierList = new TierList();
         tierList.setName(tierListDto.getName());
-        tierList.setTiers(tierListDto.getTiers());
         tierList.setUser(userRepository.findById(userId).orElseThrow());
+        List<Tier> tiers = tierListDto.getTiers();
+        if (tiers == null || tiers.isEmpty()) {
+            tiers = createDefaultTiers();
+        }
+        tierList.setTiers(tiers);
+
         return tierListRepository.save(tierList);
+    }
+
+    private List<Tier> createDefaultTiers() {
+        List<Tier> defaultTiers = new ArrayList<>();
+        for (Map.Entry<String, Boolean> entry : Constants.DEFAULT_TIERS.entrySet()) {
+            Tier tier = new Tier();
+            tier.setName(entry.getKey());
+            tier.setPool(entry.getValue());
+            defaultTiers.add(tier);
+        }
+        return defaultTiers;
     }
 
 

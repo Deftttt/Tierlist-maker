@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from './components/home/HomePage';
 import AdminPage from './components/admin/AdminPage';
 import Login from './components/home/Login';
+import Register from './components/home/Register';
 import TierListPage from './components/tierlist/TierListPage';
 import UserTierListsPage from './components/tierlist/UserTierlistsPage';
 import CreateTierListPage from './components/tierlist/CreateTierListPage';
@@ -16,6 +17,7 @@ function App() {
         <Routes>
             <Route path="/" exact element={<HomePage />} />
             <Route path="/auth/login" element={<Login />} />
+            <Route path="/auth/register" element={<Register />} />
             <Route path="/users" element={<UserList />} />
             <Route path="/users/:id" element={<UserDetails />} />
             <Route path="/admin" element={<AdminPage />} />

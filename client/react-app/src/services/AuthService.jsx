@@ -17,6 +17,18 @@ export const login = (loginData) =>{
     });
 }
 
+export const register = (registerData) =>{
+  return api
+    .post("/signup", registerData, {headers: { 'Content-type': 'application/json' }})
+    .then((response) => {
+      if (response.data.accessToken) {
+        localStorage.setItem("accessToken", JSON.stringify(response.data.accessToken));
+      }
+
+      return response.data;
+    });
+}
+
 export const logout = () => {
   localStorage.removeItem("accessToken");
 };
