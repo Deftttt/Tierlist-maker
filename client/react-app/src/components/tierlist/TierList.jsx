@@ -10,10 +10,8 @@ import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 
 import Droppable from "./TierRow";
 import { arrayMove, insertAtIndex, removeAtIndex } from "../../utils/array";
-import { Grid} from "@mui/material";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 
 
 
@@ -45,7 +43,6 @@ const TierList = ({ tierListData, onTierListNameChange, onTierNameChange, onItem
 
 
       useEffect(() => {
-        console.log("ONITEMSORDERCHANGE");
         onItemsOrderChange(tiers);
       }, [tiers]);
     
@@ -103,25 +100,17 @@ const TierList = ({ tierListData, onTierListNameChange, onTierNameChange, onItem
           return;
         }
         
-        //console.log("DRAG END activeID, overID", active.id, over.id);
     
         if (active.id !== over.id) {
           const activeContainerId = active.data.current.sortable.containerId;
           const overContainerId = over.data.current?.sortable.containerId || over.id;
-          //const activeIndex = active.data.current.sortable.index;
-          //const overIndex = over.data.current?.sortable.index || 0;
 
           const activeIndex = findIndexByTierId(tiers, activeContainerId);
           const overIndex = findIndexByTierId(tiers, overContainerId);
 
-          //console.log("Drag end activeIndex, overIndex ", activeIndex, overIndex);
-
-
           const itemIndexA = active.data.current.sortable.items.findIndex(item => item.itemId === active.id);
           const itemIndexO = over.data.current.sortable.items.findIndex(item => item.itemId === over.id);
-          //console.log("ITEM INDEXES: ", itemIndexA, itemIndexO);
           
-    
           setTiers((tiers) => {
             let newTiers;
             if (activeContainerId === overContainerId) {
@@ -144,7 +133,6 @@ const TierList = ({ tierListData, onTierListNameChange, onTierNameChange, onItem
               );
             }
 
-            //handleItemsOrderChange(newTiers);
     
             return newTiers;
           });
@@ -171,20 +159,11 @@ const TierList = ({ tierListData, onTierListNameChange, onTierNameChange, onItem
         overIndex,
         itemId
       ) => {
-
-        //const tierIndexA = tiers.findIndex(tier => tier.tierId === activeContainer);
-        //const tierIndexO = tiers.findIndex(tier => tier.tierId === overContainer);
         const tierIndexA = findIndexByTierId(tiers, activeContainer);
         const tierIndexO = findIndexByTierId(tiers, overContainer);
-        //console.log(" index active", activeIndex);
-        //console.log(" index over", overIndex);
-        //console.log("tier index active", tierIndexA, tiers[tierIndexA]);
-        //console.log("tier index over", tierIndexO, tiers[tierIndexO]);
 
         const item = tiers[tierIndexA].items.find(item => item.itemId === itemId);
         const itemIndex = tiers[tierIndexA].items.findIndex(item => item.itemId === itemId);
-        //console.log("item", itemIndex, tiers[tierIndexA].items[itemIndex]);
-
 
         return {
           ...tiers,
@@ -215,7 +194,7 @@ const TierList = ({ tierListData, onTierListNameChange, onTierNameChange, onItem
           <Container fluid="md">  
             {Object.values(tiers).filter(tier => !tier.isPool).map((tier) => (   
               <Row>
-                <Droppable key={tier.tierId} tierId={tier.tierId} tierName={tier.name} items={tier.items} 
+                <Droppable key={tier.tierId} tierlistId={tierListData.id} tierId={tier.tierId} tierName={tier.name} items={tier.items} 
                 onTierNameChange={(newName) => onTierNameChange(tier.tierId, newName)}/>
               </Row>
             ))}

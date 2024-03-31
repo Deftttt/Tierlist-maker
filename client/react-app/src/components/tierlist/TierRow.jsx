@@ -4,7 +4,7 @@ import { SortableContext, horizontalListSortingStrategy, verticalListSortingStra
 import SortableItem from "../Item/Item";
 import { Container, Col, Row } from "react-bootstrap";
 
-const Tier = ({ tierId, tierName, items, onTierNameChange  }) => {
+const Tier = ({ tierlistId, tierId, tierName, items, onTierNameChange  }) => {
   const { setNodeRef } = useDroppable({ id: tierId });
   const [isEditing, setIsEditing] = useState(false);
   const [editedTierName, setEditedTierName] = useState(tierName);
@@ -43,10 +43,11 @@ const Tier = ({ tierId, tierName, items, onTierNameChange  }) => {
           <h6 onClick={handleTierNameClick}>{editedTierName}</h6>
         )}
         {Object.values(items).map((item) => (
-          <SortableItem key={item.itemId} id={item.itemId} itemName={item.name} />
+          <SortableItem key={item.itemId} tierlistId={tierlistId} id={item.itemId} itemName={item.name} image={item.image} />
         ))}
       </Container>
     </SortableContext>
+    
   );
 };
 

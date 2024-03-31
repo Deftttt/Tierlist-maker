@@ -6,6 +6,7 @@ import { Button, Container, Form } from 'react-bootstrap';
 const CreateTierListPage = () => {
   const [tierListName, setTierListName] = useState('');
   const [redirectToTierList, setRedirectToTierList] = useState(false);
+  const [tierListId, setTierListId] = useState(null);
 
   const handleCreateTierList = async () => {
     try {
@@ -15,8 +16,7 @@ const CreateTierListPage = () => {
       }
 
       const response = await createTierList(tierListName);
-
-      // Ustawiamy redirectToTierList na true, aby przekierować użytkownika po utworzeniu tierlisty
+      setTierListId(response.data.id);
       setRedirectToTierList(true);
     } catch (error) {
       console.error('Błąd podczas tworzenia tierlisty:', error);
@@ -25,15 +25,14 @@ const CreateTierListPage = () => {
   };
 
   if (redirectToTierList) {
-    // Jeśli redirectToTierList jest true, przekierowujemy użytkownika do strony tierlisty
-    return <redirect to={`/tierlist/${response.data.id}`} />;
+    return <redirect to={`/tierlist/${tierListId}`} />;
   }
 
   return (
-    <Container>
-      <h1>Stwórz nową tierlistę</h1>
+    <div className="container mt-5">
+      <h1>Utwórz nową tierlistę</h1>
       <Form>
-        <Form.Group controlId="tierListName">
+        <Form.Group controlId="tierListName" className="mb-3">
           <Form.Label>Nazwa tierlisty</Form.Label>
           <Form.Control
             type="text"
@@ -46,7 +45,7 @@ const CreateTierListPage = () => {
           Stwórz tierlistę
         </Button>
       </Form>
-    </Container>
+      </div>
   );
 };
 

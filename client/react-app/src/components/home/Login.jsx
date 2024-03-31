@@ -1,60 +1,53 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { login, logout } from '../../services/AuthService';
+import { login } from '../../services/AuthService';
+import { Button, Form } from 'react-bootstrap';
 
 function Login() {
-
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = {
-            email, 
+            email,
             password
         };
 
         try {
-            const response = await login(formData);
-            navigate('/users')
-
+            await login(formData);
+            navigate('/');
         } catch (error) {
-          console.error('Error while logging in:', error);
+            console.error('Error while logging in:', error);
         }
-
     };
 
-    const handleLogout = () => {
-        logout();
-        alert("Token removed");
-      };
 
     return (
-      <div>
-        <h1>Login</h1>
-        <form onSubmit={handleSubmit}>
-            <label htmlFor="email">Email</label>
-            <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            />
-            <label htmlFor="password">Password</label>
-            <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            />
-            <button>Login</button>
-            <button onClick={handleLogout}>Logout</button>
-        </form>
-      </div>
+        <div className="container mt-5">
+            <h1 className="mb-4">Zaloguj się </h1>
+            <Form onSubmit={handleSubmit}>
+                <Form.Group className="mb-3" controlId="email">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="password">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </Form.Group>
+                <Button type="submit" className="btn btn-primary me-2">Login</Button>
+            </Form>
+        </div>
     );
-  
-  };
+};
 
-  export default Login;
+export default Login;

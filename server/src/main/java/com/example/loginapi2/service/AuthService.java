@@ -1,14 +1,16 @@
 package com.example.loginapi2.service;
 
 import com.example.loginapi2.model.dto.LoginResponse;
+import com.example.loginapi2.model.dto.SignUpRequest;
+import com.example.loginapi2.repository.UserRepository;
 import com.example.loginapi2.security.JwtIssuer;
 import com.example.loginapi2.security.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.GrantedAuthority;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +18,7 @@ public class AuthService {
 
     private final JwtIssuer jwtIssuer;
     private final AuthenticationManager authenticationManager;
+    private final UserRepository userRepository;
 
     public LoginResponse attemptLogin(String email, String password){
 
@@ -35,6 +38,20 @@ public class AuthService {
                 .build();
     }
 
+
+    public void validateSignUpRequest(SignUpRequest request) throws Exception {
+        if (!request.getPassword().equals(request.getPasswordConfirm())) {
+            throw new Exception("Passwords do not match!");
+        }
+
+        if (isEmailTaken(request.getEmail())) {
+            throw new Exception("Email exists!");
+        }
+    }
+
+    public boolean isEmailTaken(String email){
+        return userRepository.findByEmail(email) != null;
+    }
 
 
 }

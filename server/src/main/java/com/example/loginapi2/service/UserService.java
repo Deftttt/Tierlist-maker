@@ -37,8 +37,5 @@ public class UserService {
     }
 
 
-    public boolean isEmailTaken(String email){
-        return userRepository.findByEmail(email) != null;
-    }
 
 }

@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class HelloController {
+public class HomeController {
 
     @GetMapping("/")
-    public String greeting(){
+        public String greeting(){
         return "Hello!";
     }
 

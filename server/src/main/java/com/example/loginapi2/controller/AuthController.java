@@ -10,7 +10,6 @@ import com.example.loginapi2.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,21 +27,20 @@ public class AuthController {
         return authService.attemptLogin(request.getEmail(), request.getPassword());
     }
 
-    @PostMapping("/auth/signup")
-    public LoginResponse signUp(@RequestBody @Valid SignUpRequest request) throws Exception {
-        if(userService.isEmailTaken(request.getEmail())){
-            throw new Exception("Email exists!");
-            //throw new DuplicatedUserInfoException(String.format("Email %s already been used", signUpRequest.getEmail()));
-        }
-        User user = userService.addUser(new User(
-                null,
-                request.getEmail(),
-                passwordEncoder.encode(request.getPassword()),
-                Role.USER,
-                request.getExtraAtribute()
-        ));
+   @PostMapping("/auth/signup")
+        public LoginResponse signUp(@RequestBody @Valid SignUpRequest request) throws Exception {
 
-        return authService.attemptLogin(request.getEmail(), request.getPassword());
+            authService.validateSignUpRequest(request);
+
+            User user = userService.addUser(new User(
+                    null,
+                    request.getEmail(),
+                    passwordEncoder.encode(request.getPassword()),
+                    Role.USER,
+                    request.getExtraAtribute()
+            ));
+
+            return authService.attemptLogin(request.getEmail(), request.getPassword());
     }
 
 
