@@ -1,5 +1,7 @@
 package com.example.loginapi2.service;
 
+import com.example.loginapi2.exception.EmailExistsException;
+import com.example.loginapi2.exception.PasswordsDoNotMatchException;
 import com.example.loginapi2.model.dto.LoginResponse;
 import com.example.loginapi2.model.dto.SignUpRequest;
 import com.example.loginapi2.repository.UserRepository;
@@ -39,13 +41,13 @@ public class AuthService {
     }
 
 
-    public void validateSignUpRequest(SignUpRequest request) throws Exception {
+    public void validateSignUpRequest(SignUpRequest request){
         if (!request.getPassword().equals(request.getPasswordConfirm())) {
-            throw new Exception("Passwords do not match!");
+            throw new PasswordsDoNotMatchException("Passwords do not match!");
         }
 
         if (isEmailTaken(request.getEmail())) {
-            throw new Exception("Email exists!");
+            throw new EmailExistsException("Entered email already is in use.");
         }
     }
 

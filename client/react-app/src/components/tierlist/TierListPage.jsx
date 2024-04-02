@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import TierList from './TierList';
 import AddItem from './AddItem';
+import Navbar from "../Navbar";
+import { Button, Form, Container } from 'react-bootstrap';
 import { geTierListById, updateTierList, addTier, addItem } from '../../services/TierListService';
 
 function TierListPage() {
@@ -91,7 +93,8 @@ function TierListPage() {
   }
 
   return (
-    <div>
+    <Container>
+      <Navbar/>
       {tierListData ? (
         <TierList tierListData={tierListData} onTierListNameChange={handleTierListNameChange} onTierNameChange={handleTierNameChange} onItemsOrderChange={handleItemsOrderChange} onAddTier={handleAddTier}/>
       ) : (
@@ -100,7 +103,7 @@ function TierListPage() {
 
       <AddItem tierListId={tierListData.id}/>
       <button onClick={saveTierListToDatabase}>Zapisz</button>
-    </div>
+    </Container>
   );
 };
 

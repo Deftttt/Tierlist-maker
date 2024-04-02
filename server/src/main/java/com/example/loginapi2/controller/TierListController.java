@@ -7,6 +7,7 @@ import com.example.loginapi2.model.dto.TierDto;
 import com.example.loginapi2.model.dto.TierListDto;
 import com.example.loginapi2.security.UserPrincipal;
 import com.example.loginapi2.service.TierListService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,6 +23,7 @@ public class TierListController {
     private final TierListService tierListService;
 
     @GetMapping("/tierlists")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public List<TierList> getTierLists(){
         return tierListService.getTierLists();
     }
@@ -44,7 +46,7 @@ public class TierListController {
     }
 
     @PostMapping("/tierlists")
-    public TierList addTierList(@AuthenticationPrincipal UserPrincipal userPrincipal, @RequestBody TierListDto tierListDto) {
+    public TierList addTierList(@AuthenticationPrincipal UserPrincipal userPrincipal, @Valid @RequestBody TierListDto tierListDto) {
         return tierListService.createTierList(userPrincipal.getUserId(), tierListDto);
     }
 

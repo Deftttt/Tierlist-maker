@@ -8,7 +8,10 @@ import com.example.loginapi2.model.dto.SignUpRequest;
 import com.example.loginapi2.service.AuthService;
 import com.example.loginapi2.service.UserService;
 import jakarta.validation.Valid;
+import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,20 +30,19 @@ public class AuthController {
         return authService.attemptLogin(request.getEmail(), request.getPassword());
     }
 
-   @PostMapping("/auth/signup")
-        public LoginResponse signUp(@RequestBody @Valid SignUpRequest request) throws Exception {
+    @PostMapping("/auth/signup")
+    public LoginResponse signUp(@Valid @RequestBody SignUpRequest request){
+        authService.validateSignUpRequest(request);
 
-            authService.validateSignUpRequest(request);
+        User user = userService.addUser(new User(
+                null,
+                request.getEmail(),
+                passwordEncoder.encode(request.getPassword()),
+                Role.USER,
+                request.getExtraAtribute()
+        ));
 
-            User user = userService.addUser(new User(
-                    null,
-                    request.getEmail(),
-                    passwordEncoder.encode(request.getPassword()),
-                    Role.USER,
-                    request.getExtraAtribute()
-            ));
-
-            return authService.attemptLogin(request.getEmail(), request.getPassword());
+        return authService.attemptLogin(request.getEmail(), request.getPassword());
     }
 
 

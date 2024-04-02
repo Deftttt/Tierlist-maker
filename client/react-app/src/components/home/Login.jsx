@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from '../../services/AuthService';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Container } from 'react-bootstrap';
+import Navbar from "../Navbar";
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -25,7 +26,8 @@ function Login() {
 
 
     return (
-        <div className="container mt-5">
+        <Container>
+            <Navbar />
             <h1 className="mb-4">Zaloguj się </h1>
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="email">
@@ -46,7 +48,7 @@ function Login() {
                 </Form.Group>
                 <Button type="submit" className="btn btn-primary me-2">Login</Button>
             </Form>
-        </div>
+        </Container>
     );
 };
 

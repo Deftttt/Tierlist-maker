@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { register } from '../../services/AuthService';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Container } from 'react-bootstrap';
+import Navbar from "../Navbar"; 
+import Toast from 'react-bootstrap/Toast';
 
 function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [passwordConfirm, setPasswordConfirm] = useState("");
     const [extraAtribute, setExtraAtribute] = useState("");
+    const [error, setError] = useState(null);
+    const [showToast, setShowToast] = useState(true);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -23,13 +27,24 @@ function Register() {
             await register(formData);
             navigate('/');
         } catch (error) {
-            console.error('Error while registering:', error);
+            console.error('Error while registering:', error.response.data);
+            setError(error.response.data); 
         }
     };
 
     return (
-        <div className="container mt-5">
+        <Container>
+        <Navbar />
             <h1 className="mb-4">Zarejestruj się</h1>
+
+            {error && <Toast onClose={() => setShowToast(false)} show={showToast} delay={3000} autohide bg={"danger"}>
+                <Toast.Header>
+                    <strong className="me-auto">Bootstrap</strong>
+                </Toast.Header>
+                <Toast.Body>Woohoo, you're reading this text in a Toast!</Toast.Body>
+            </Toast>
+            }
+
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="email">
                     <Form.Label>Email</Form.Label>
@@ -37,7 +52,11 @@ function Register() {
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        isInvalid={error?.errors?.email}
                     />
+                    <Form.Control.Feedback type="invalid">
+                        {error?.errors?.email}
+                    </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="password">
                     <Form.Label>Hasło</Form.Label>
@@ -45,7 +64,11 @@ function Register() {
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        isInvalid={error?.errors?.password}
                     />
+                    <Form.Control.Feedback type="invalid">
+                        {error?.errors?.password}
+                    </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="passwordConfirm">
                     <Form.Label>Potwierdź hasło</Form.Label>
@@ -53,7 +76,11 @@ function Register() {
                         type="password"
                         value={passwordConfirm}
                         onChange={(e) => setPasswordConfirm(e.target.value)}
+                    isInvalid={error?.errors?.passwordConfirm}
                     />
+                    <Form.Control.Feedback type="invalid">
+                        {error?.errors?.passwordConfirm}
+                    </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="extraAtribute">
                     <Form.Label>Dodatkowe info</Form.Label>
@@ -61,11 +88,15 @@ function Register() {
                         type="text"
                         value={extraAtribute}
                         onChange={(e) => setExtraAtribute(e.target.value)}
+                    isInvalid={error?.errors?.extraAtribute}
                     />
+                    <Form.Control.Feedback type="invalid">
+                        {error?.errors?.extraAtribute}
+                    </Form.Control.Feedback>
                 </Form.Group>
-                <Button type="submit" className="btn btn-primary me-2">Zarejestruj</Button>
+                <Button type="submit" className="btn btn-primary me-2" onClick={() => setShowToast(true)}>Zarejestruj</Button>
             </Form>
-        </div>
+        </Container>
     );
 };
 

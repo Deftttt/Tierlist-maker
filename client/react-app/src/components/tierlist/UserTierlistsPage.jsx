@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams  } from 'react-router-dom';
 import { Container, Row, Col, ListGroup, Alert } from 'react-bootstrap';
 import { getTierlistsForUser } from '../../services/TierListService';
+import Navbar from "../Navbar";
+
 function TierlistsPage() {
     const { userId } = useParams();
     const [tierlists, setTierlists] = useState([]);
@@ -24,6 +26,7 @@ function TierlistsPage() {
   
     return (
       <Container>
+        <Navbar/>
         <h1>Twoje tierlisty</h1>
         {loading ? (
           <p>Ładowanie...</p>
