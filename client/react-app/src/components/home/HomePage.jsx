@@ -2,8 +2,11 @@ import React from "react";
 import { Container, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Navbar from "../Navbar";
+import { getToken } from "../../services/AuthService";
 
 function Home() {
+  const isLoggedIn = getToken();
+
   return (
     <Container>
       <Navbar />
@@ -16,16 +19,18 @@ function Home() {
         convallis, velit et efficitur dignissim, purus orci varius mauris,
         non tincidunt odio justo ac dui.
       </p>
-      <div className="mt-4">
-        <Link to="/tierlists/create">
-          <Button variant="primary" className="me-2">
-            Stwórz tierlistę
-          </Button>
-        </Link>
-        <Link to="/tierlists/user/current">
-          <Button variant="secondary">Moje tierlisty</Button>
-        </Link>
-      </div>
+      {isLoggedIn && (
+        <div className="mt-4">
+          <Link to="/tierlists/create">
+            <Button variant="primary" className="me-2">
+              Stwórz tierlistę
+            </Button>
+          </Link>
+          <Link to="/tierlists/user/current">
+            <Button variant="secondary">Moje tierlisty</Button>
+          </Link>
+        </div>
+      )}
     </Container>
   );
 }

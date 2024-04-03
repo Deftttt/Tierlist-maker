@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate  } from 'react-router-dom';
 import TierList from './TierList';
 import AddItem from './AddItem';
 import Navbar from "../Navbar";
@@ -7,6 +7,7 @@ import { Button, Form, Container } from 'react-bootstrap';
 import { geTierListById, updateTierList, addTier, addItem } from '../../services/TierListService';
 
 function TierListPage() {
+  const navigate = useNavigate(); 
   const { tierListId } = useParams();
   const [tierListData, setTierListData] = useState(null);
   
@@ -18,18 +19,12 @@ function TierListPage() {
         setTierListData(response.data);
       } catch (error) {
         console.error('Error fetching tierlist:', error);
+        navigate('/error');
       }
     };
 
     fetchTierList();
   }, [tierListId]);
-
-  /*
-  useEffect(()=> {
-    console.log("XD");
-    saveTierListToDatabase();
-  }, [tierListData?.name])
-  */
 
 
   useEffect(()=> {

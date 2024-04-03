@@ -39,9 +39,9 @@ function Register() {
 
             {error && <Toast onClose={() => setShowToast(false)} show={showToast} delay={3000} autohide bg={"danger"}>
                 <Toast.Header>
-                    <strong className="me-auto">Bootstrap</strong>
+                    <strong className="me-auto">Błąd przy rejestracji</strong>
                 </Toast.Header>
-                <Toast.Body>Woohoo, you're reading this text in a Toast!</Toast.Body>
+                <Toast.Body>{error.message}</Toast.Body>
             </Toast>
             }
 

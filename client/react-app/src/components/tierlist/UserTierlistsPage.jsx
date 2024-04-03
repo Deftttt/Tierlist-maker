@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams  } from 'react-router-dom';
+import { Link, useParams, useNavigate  } from 'react-router-dom';
 import { Container, Row, Col, ListGroup, Alert } from 'react-bootstrap';
 import { getTierlistsForUser } from '../../services/TierListService';
 import Navbar from "../Navbar";
 
 function TierlistsPage() {
+    const navigate = useNavigate(); 
     const { userId } = useParams();
     const [tierlists, setTierlists] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -13,9 +14,11 @@ function TierlistsPage() {
       const fetchTierlists = async () => {
         try {
           const response = await getTierlistsForUser(userId);
+          console.log(response);
           setTierlists(response.data);
         } catch (error) {
           console.error('Error fetching tierlists:', error);
+          navigate('/error');
         } finally {
           setLoading(false);
         }
@@ -32,7 +35,7 @@ function TierlistsPage() {
           <p>Ładowanie...</p>
         ) : tierlists.length === 0 ? (
           <Alert variant="info">
-            Ten użytkownik nie ma jeszcze żadnych tierlist.
+            Użytkownik nie ma jeszcze żadnych tierlist.
           </Alert>
         ) : (
           <Row>

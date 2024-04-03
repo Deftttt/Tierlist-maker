@@ -9,6 +9,7 @@ import Register from './components/home/Register';
 import TierListPage from './components/tierlist/TierListPage';
 import UserTierListsPage from './components/tierlist/UserTierlistsPage';
 import CreateTierListPage from './components/tierlist/CreateTierListPage';
+import ErorPage from './components/error/ErrorPage';
 
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
     <BrowserRouter>
         <Routes>
             <Route path="/" exact element={<HomePage />} />
+            <Route path="/error" exact element={<ErorPage />} />
             <Route path="/auth/login" element={<Login />} />
             <Route path="/auth/register" element={<Register />} />
             <Route path="/users" element={<UserList />} />

@@ -7,6 +7,7 @@ import Navbar from "../Navbar";
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -20,7 +21,8 @@ function Login() {
             await login(formData);
             navigate('/');
         } catch (error) {
-            console.error('Error while logging in:', error);
+            console.error('Error while logging in:', error.response.data);
+            setError(error.response.data); 
         }
     };
 
@@ -46,7 +48,7 @@ function Login() {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </Form.Group>
-                <Button type="submit" className="btn btn-primary me-2">Login</Button>
+                <Button type="submit" className="btn btn-primary me-2" onClick={() => setShowToast(true)}>Login</Button>
             </Form>
         </Container>
     );
