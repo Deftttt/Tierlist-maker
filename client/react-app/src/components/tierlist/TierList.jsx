@@ -10,8 +10,7 @@ import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 
 import Droppable from "./TierRow";
 import { arrayMove, insertAtIndex, removeAtIndex } from "../../utils/array";
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
+import { Button, Container, Row } from 'react-bootstrap';
 
 
 
@@ -216,7 +215,7 @@ const TierList = ({ tierListData, onTierListNameChange, onTierNameChange, onItem
         </DndContext>
 
         <div>
-          <button onClick={handleAddTier}>Add Tier</button>
+          <Button onClick={handleAddTier}>Add Tier</Button>
         </div>
         
         </div>

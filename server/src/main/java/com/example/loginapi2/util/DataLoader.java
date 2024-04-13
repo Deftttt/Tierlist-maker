@@ -1,35 +1,31 @@
 package com.example.loginapi2.util;
 
 import com.example.loginapi2.model.*;
+import com.example.loginapi2.model.dto.UserDto;
+import com.example.loginapi2.service.AuthService;
 import com.example.loginapi2.service.TierListService;
 import com.example.loginapi2.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class DataLoader {
-    private final PasswordEncoder passwordEncoder;
     private final UserService userService;
+    private final AuthService authService;
     private final TierListService tierListService;
 
 
     @EventListener(ApplicationReadyEvent.class)
     public void get(){
 
-        User user = new User(null, "piotrstasicki@gmail.com", passwordEncoder.encode("password"), Role.ADMIN, "XDDD");
-        User user2 = new User(null, "adam.michnik@gmail.com", passwordEncoder.encode("adamek"), Role.USER, "Additional info");
 
-        userService.addUser(user);
-        userService.addUser(user2);
+        User user = userService.addUser(new UserDto("piotrstasicki@gmail.com", "password", Role.ADMIN, "Some info"));
+        User user2 = userService.addUser(new UserDto("adam.michnik@gmail.com", "adamek", Role.USER, "Additional info"));
 
         Item item1 = new Item(null, "Item 1", "image 1");
         Item item2 = new Item(null, "Item 2", "image 2");

@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { register } from '../../services/AuthService';
-import { Button, Form, Container } from 'react-bootstrap';
+import { Button, Form, Container, Alert, Row, Col } from 'react-bootstrap';
 import Navbar from "../Navbar"; 
-import Toast from 'react-bootstrap/Toast';
 
 function Register() {
     const [email, setEmail] = useState("");
@@ -11,8 +10,17 @@ function Register() {
     const [passwordConfirm, setPasswordConfirm] = useState("");
     const [extraAtribute, setExtraAtribute] = useState("");
     const [error, setError] = useState(null);
-    const [showToast, setShowToast] = useState(true);
+    const [showAlert, setShowAlert] = useState(false);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (error) {
+          setShowAlert(true);
+          setTimeout(() => {
+            setShowAlert(false);
+          }, 3000);
+        }
+      }, [error]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -35,67 +43,74 @@ function Register() {
     return (
         <Container>
         <Navbar />
-            <h1 className="mb-4">Zarejestruj się</h1>
+            <h1 className="mb-4 text-center">Zarejestruj się</h1>
 
-            {error && <Toast onClose={() => setShowToast(false)} show={showToast} delay={3000} autohide bg={"danger"}>
-                <Toast.Header>
-                    <strong className="me-auto">Błąd przy rejestracji</strong>
-                </Toast.Header>
-                <Toast.Body>{error.message}</Toast.Body>
-            </Toast>
-            }
+            {showAlert && (
+            <Alert variant="danger" onClose={() => setShowAlert(false)} dismissible>
+                <Alert.Heading>Błąd przy rejestracji</Alert.Heading>
+                <p>{error.message}</p>
+            </Alert>
+            )}
+            <Row className="justify-content-center">
+                 <Col xs={12} md={6}>
 
-            <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3" controlId="email">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        isInvalid={error?.errors?.email}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                        {error?.errors?.email}
-                    </Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="password">
-                    <Form.Label>Hasło</Form.Label>
-                    <Form.Control
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        isInvalid={error?.errors?.password}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                        {error?.errors?.password}
-                    </Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="passwordConfirm">
-                    <Form.Label>Potwierdź hasło</Form.Label>
-                    <Form.Control
-                        type="password"
-                        value={passwordConfirm}
-                        onChange={(e) => setPasswordConfirm(e.target.value)}
-                    isInvalid={error?.errors?.passwordConfirm}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                        {error?.errors?.passwordConfirm}
-                    </Form.Control.Feedback>
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="extraAtribute">
-                    <Form.Label>Dodatkowe info</Form.Label>
-                    <Form.Control
-                        type="text"
-                        value={extraAtribute}
-                        onChange={(e) => setExtraAtribute(e.target.value)}
-                    isInvalid={error?.errors?.extraAtribute}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                        {error?.errors?.extraAtribute}
-                    </Form.Control.Feedback>
-                </Form.Group>
-                <Button type="submit" className="btn btn-primary me-2" onClick={() => setShowToast(true)}>Zarejestruj</Button>
-            </Form>
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Group controlId="email">
+                            <Form.Label>Email:</Form.Label>
+                            <Form.Control
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                isInvalid={error?.errors?.email}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                {error?.errors?.email}
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                        <Form.Group controlId="password">
+                            <Form.Label>Hasło:</Form.Label>
+                            <Form.Control
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                isInvalid={error?.errors?.password}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                {error?.errors?.password}
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                        <Form.Group controlId="passwordConfirm">
+                            <Form.Label>Potwierdź hasło:</Form.Label>
+                            <Form.Control
+                                type="password"
+                                value={passwordConfirm}
+                                onChange={(e) => setPasswordConfirm(e.target.value)}
+                            isInvalid={error?.errors?.passwordConfirm}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                {error?.errors?.passwordConfirm}
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                        <Form.Group controlId="extraAtribute">
+                            <Form.Label>Dodatkowe info:</Form.Label>
+                            <Form.Control
+                                type="text"
+                                value={extraAtribute}
+                                onChange={(e) => setExtraAtribute(e.target.value)}
+                            isInvalid={error?.errors?.extraAtribute}
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                {error?.errors?.extraAtribute}
+                            </Form.Control.Feedback>
+                        </Form.Group>
+                        <div className="d-flex justify-content-center">
+                        <Button type="submit" className="btn btn-primary btn-lg me-2 mt-3" onClick={() => setShowToast(true)}>
+                            Register
+                        </Button>
+                        </div>
+                    </Form>
+                </Col>
+            </Row>
         </Container>
     );
 };

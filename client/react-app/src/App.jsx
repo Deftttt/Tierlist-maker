@@ -1,6 +1,7 @@
 import React from 'react';
 import UserList from './components/users/UserList';
 import UserDetails from './components/users/UserDetails';
+import UserUpdateForm from './components/users/UserUpdateForm';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from './components/home/HomePage';
 import AdminPage from './components/admin/AdminPage';
@@ -21,10 +22,10 @@ function App() {
             <Route path="/auth/login" element={<Login />} />
             <Route path="/auth/register" element={<Register />} />
             <Route path="/users" element={<UserList />} />
-            <Route path="/users/:id" element={<UserDetails />} />
+            <Route path="/users/:userId" element={<UserDetails />} />
+            <Route path="/users/:userId/update" element={<UserUpdateForm />}/>
             <Route path="/admin" element={<AdminPage />} />
             <Route path="/tierlists/:tierListId" element={<TierListPage />} />
-            <Route path="/tierlists/user/current" element={<UserTierListsPage />} />
             <Route path="/tierlists/user/:userId" element={<UserTierListsPage />} />
             <Route path="/tierlists/create" element={<CreateTierListPage />} />
         </Routes>

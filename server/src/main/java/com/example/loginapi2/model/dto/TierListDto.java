@@ -8,7 +8,6 @@ import java.util.List;
 
 @Data
 public class TierListDto {
-
     @NotBlank(message = "Pole nie może być puste")
     @Size(max=40, message = "Nazwa może mieć max. 40 znaków")
     private String name;

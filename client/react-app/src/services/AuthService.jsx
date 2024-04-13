@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { jwtDecode } from "jwt-decode";
 
 const api = axios.create({
   baseURL: 'http://localhost:8080/auth', 
@@ -45,3 +46,14 @@ export const authHeader = () => {
     return {};
   }
 }
+
+export const getUserIdFromToken = () => {
+  const token = JSON.parse(localStorage.getItem("accessToken"));
+
+  if (token) {
+    const decodedToken = jwtDecode(token);
+    return decodedToken.sub; 
+  } else {
+    return null;
+  }
+};

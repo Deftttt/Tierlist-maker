@@ -23,7 +23,6 @@ public class AuthController {
 
     private final AuthService authService;
     private final UserService userService;
-    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/auth/login")
     public LoginResponse login(@RequestBody @Valid LoginRequest request){
@@ -33,14 +32,7 @@ public class AuthController {
     @PostMapping("/auth/signup")
     public LoginResponse signUp(@Valid @RequestBody SignUpRequest request){
         authService.validateSignUpRequest(request);
-
-        User user = userService.addUser(new User(
-                null,
-                request.getEmail(),
-                passwordEncoder.encode(request.getPassword()),
-                Role.USER,
-                request.getExtraAtribute()
-        ));
+        userService.addUser(request);
 
         return authService.attemptLogin(request.getEmail(), request.getPassword());
     }

@@ -1,16 +1,34 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import { Container, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Navbar from "../Navbar";
-import { getToken } from "../../services/AuthService";
+import { getToken, getUserIdFromToken } from "../../services/AuthService";
+import { getUserById } from '../../services/UserService';
+
 
 function Home() {
   const isLoggedIn = getToken();
+  const userId = getUserIdFromToken();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await getUserById(userId); 
+        setUser(response.data);
+      } catch (error) {
+        console.error('Error fetching user:', error);
+        navigate('/error');
+      }
+    };
+  
+    fetchUser();
+  }, [userId]);
 
   return (
     <Container>
       <Navbar />
-      <h1>Witaj na stronie głównej!</h1>
+      <h1>Witaj na stronie głównej, {user?.email}!</h1>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non
         vestibulum sapien. Aliquam in nibh sed elit luctus lacinia. Morbi
@@ -26,8 +44,8 @@ function Home() {
               Stwórz tierlistę
             </Button>
           </Link>
-          <Link to="/tierlists/user/current">
-            <Button variant="secondary">Moje tierlisty</Button>
+          <Link to={`/tierlists/user/${userId}`}>
+           <Button variant="secondary">Moje tierlisty</Button>
           </Link>
         </div>
       )}

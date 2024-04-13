@@ -10,6 +10,8 @@ function TierListPage() {
   const navigate = useNavigate(); 
   const { tierListId } = useParams();
   const [tierListData, setTierListData] = useState(null);
+  const [tiers, setTiers] = useState([]);
+  const [items, setItems] = useState([]);
   
 
   useEffect(() => {
@@ -71,16 +73,9 @@ function TierListPage() {
       setTierListData({ ...tierListData, tiers: updatedTiers });
   };
 
-  /*
-  const handleAddItem = async (tierListId, files, itemName) => {
-    e.preventDefault();
-    try {
-      await addItem(tierListId, files, itemName);
-    } catch (error) {
-      console.error('Błąd podczas dodawania itemu:', error);
-    }
+  const handleItemAdded = (newItem) => {
+    setItems(oldItems => [...oldItems, newItem]);
   };
-  */
   
 
   if (!tierListData) {
@@ -96,10 +91,11 @@ function TierListPage() {
         <p>Loading...</p>
       )}
 
-      <AddItem tierListId={tierListData.id}/>
-      <button onClick={saveTierListToDatabase}>Zapisz</button>
+      <AddItem tierListId={tierListData.id} onItemAdded={handleItemAdded}/>
+      
     </Container>
   );
 };
 
 export default TierListPage;
+//<button onClick={saveTierListToDatabase}>Zapisz</button>
