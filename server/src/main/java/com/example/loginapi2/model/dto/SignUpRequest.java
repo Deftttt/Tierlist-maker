@@ -18,6 +18,6 @@ public class SignUpRequest {
     private String passwordConfirm;
 
     @NotBlank(message = "Pole nie może być puste")
-    @Size(max = 60, message = "Przekroczono max. długość (60 znaków)")
+    @Size(max = 100, message = "Przekroczono max. długość (100 znaków)")
     private String extraAtribute;
 }

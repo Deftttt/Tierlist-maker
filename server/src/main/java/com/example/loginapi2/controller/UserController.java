@@ -17,36 +17,35 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:5173")
+@RequestMapping("/users")
 public class UserController {
     private final UserService userService;
-    private final AuthService authService;
 
-    @GetMapping("/users")
+    @GetMapping("")
     public List<User> getUsers(){
         return userService.getUsers();
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN') or #id == principal.userId")
     public User getUser(@PathVariable Long id, @AuthenticationPrincipal UserPrincipal principal){
         return userService.getUser(id);
     }
 
-    @PostMapping("/users")
+    @PostMapping("")
     public ResponseEntity<User> addUser(@RequestBody UserDto userDto){
         User user = userService.addUser(userDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
-    @PutMapping("/users/{id}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN') or #id == principal.userId")
     public User updateUser(@PathVariable Long id, @AuthenticationPrincipal UserPrincipal principal, @RequestBody UserDto userDto){
         userService.validateEmail(id, userDto.getEmail());
         return userService.updateUser(id, userDto);
     }
 
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id){
         userService.deleteUser(id);
     }

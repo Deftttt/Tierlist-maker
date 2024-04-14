@@ -9,25 +9,6 @@ import lombok.RequiredArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
-@Entity
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class Tier {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long tierId;
-
-    private String name;
-
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "tier_id")
-    private List<Item> items;
-
-}*/
-
 @Entity
 @Data
 @AllArgsConstructor
@@ -41,7 +22,7 @@ public class Tier {
 
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "tier_id")
     private List<Item> items;
 

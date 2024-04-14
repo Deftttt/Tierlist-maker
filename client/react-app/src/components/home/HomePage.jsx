@@ -28,7 +28,11 @@ function Home() {
   return (
     <Container>
       <Navbar />
+      {isLoggedIn ? (
       <h1>Witaj na stronie głównej, {user?.email}!</h1>
+      ) : (
+        <h1>Witaj na stronie głównej!</h1>
+      )}
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non
         vestibulum sapien. Aliquam in nibh sed elit luctus lacinia. Morbi

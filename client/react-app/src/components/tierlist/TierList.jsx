@@ -11,6 +11,7 @@ import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import Droppable from "./TierRow";
 import { arrayMove, insertAtIndex, removeAtIndex } from "../../utils/array";
 import { Button, Container, Row } from 'react-bootstrap';
+import { Plus } from 'react-bootstrap-icons';
 
 
 
@@ -53,21 +54,15 @@ const TierList = ({ tierListData, onTierListNameChange, onTierNameChange, onItem
       
 
       const handleDragOver = ({ over, active }) => {
-        //console.log("Active:", active);
-        //console.log("Over:", over);
         const overId = over?.id;
     
         if (!overId) {
-            //console.log("NIE MA OVERID");
           return;
         }
     
         const activeContainerId = active.data.current.sortable.containerId;
         const overContainerId = over.data.current?.sortable.containerId|| over.id;
 
-        //console.log("activeContainerId:", activeContainerId);
-        //console.log("overContainerId:", overContainerId);
-        //console.log("EMPTY overContainerId:", over.id); // zle, to jest id itemu
     
         if (!overContainerId) {
           return;
@@ -75,8 +70,6 @@ const TierList = ({ tierListData, onTierListNameChange, onTierNameChange, onItem
     
         if (activeContainerId !== overContainerId) {
           setTiers((tiers) => {
-            //const activeIndex = active.data.current.sortable.index;
-            //const overIndex = over.data.current?.sortable.index || 0;
 
             const activeIndex = findIndexByTierId(tiers, activeContainerId);
             const overIndex = findIndexByTierId(tiers, overContainerId);
@@ -171,54 +164,50 @@ const TierList = ({ tierListData, onTierListNameChange, onTierNameChange, onItem
         };
       };
     
-      return (    
-        <div>
+      return (
+        <Container>
           {isEditing ? (
-        <input
-          type="text"
-          value={tierlistName}
-          onChange={(e) => setTierlistName( e.target.value )}
-          onBlur={handleSaveTierListName}
-          autoFocus
-        />
-      ) : (
-        <h1 onClick={handleTierListNameClick}>{tierlistName}</h1>
-         )}
-
-        <DndContext
-          sensors={sensors}
-          onDragEnd={handleDragEnd}
-          onDragOver={handleDragOver}
-        >
-          <Container fluid="md">  
-            {Object.values(tiers).filter(tier => !tier.isPool).map((tier) => (   
-              <Row>
-                <Droppable key={tier.tierId} tierlistId={tierListData.id} tierId={tier.tierId} tierName={tier.name} items={tier.items} 
-                onTierNameChange={(newName) => onTierNameChange(tier.tierId, newName)}/>
-              </Row>
-            ))}
-          
-          </Container>
-
-          {Object.values(tiers).find(tier => tier.isPool) && (
-            <Row>
-              <Droppable 
-                key={poolTier.tierId} 
-                tierId={poolTier.tierId} 
-                tierName={poolTier.name} 
-                items={poolTier.items} 
-                onTierNameChange={(newName) => onTierNameChange(poolTier.tierId, newName)}
-              />
-            </Row>
+            <input
+              type="text"
+              value={tierlistName}
+              onChange={(e) => setTierlistName(e.target.value)}
+              onBlur={handleSaveTierListName}
+              autoFocus
+              className="mb-3"
+            />
+          ) : (
+            <h1 onClick={handleTierListNameClick} className="mb-3">{tierlistName}</h1>
           )}
-
-        </DndContext>
-
-        <div>
-          <Button onClick={handleAddTier}>Add Tier</Button>
-        </div>
-        
-        </div>
+      
+          <DndContext
+            sensors={sensors}
+            onDragEnd={handleDragEnd}
+            onDragOver={handleDragOver}
+          >
+            <Container fluid="md" className="p-3">  
+              {Object.values(tiers).filter(tier => !tier.pool).map((tier) => (   
+                <Row className="mb-3">
+                  <Droppable key={tier.tierId} tierlistId={tierListData.id} tierId={tier.tierId} tierName={tier.name} items={tier.items} 
+                  onTierNameChange={(newName) => onTierNameChange(tier.tierId, newName)}/>
+                </Row>
+              ))}
+      
+              {Object.values(tiers).filter(tier => tier.pool).map((tier) => (   
+                <Row className="mb-3">
+                  <Droppable key={tier.tierId} tierlistId={tierListData.id} tierId={tier.tierId}  items={tier.items} 
+                  onTierNameChange={(newName) => onTierNameChange(tier.tierId, newName)}/>
+                </Row>
+              ))}
+            </Container>
+          </DndContext>
+      
+          <div className="d-flex justify-content-center mb-4">
+            <Button onClick={handleAddTier} size="lg" className="rounded-pill px-4">
+              <Plus className="mb-1" /> Add Tier
+            </Button>
+          </div>
+      
+        </Container>
       );
     }
 

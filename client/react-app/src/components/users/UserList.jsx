@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { getUsers } from '../../services/UserService';
-import { Table, Button, Container } from 'react-bootstrap';
+import { Container, Table, Alert, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../Navbar';
+import { LoadingSpinner } from '../LoadingSpinner';
 
 
 function UserList() {
   const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,6 +18,8 @@ function UserList() {
         setUsers(response.data);
       } catch (error) {
         console.error('Error fetching users:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -34,24 +38,31 @@ function UserList() {
     <Container>
       <Navbar />
       <h1>User List</h1>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Email</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user) => (
-            <tr key={user.id} onClick={() => handleRowClick(user.id)}>
-              <td>{user.id}</td>
-              <td>{user.email}</td>
+      {loading ? (<LoadingSpinner/>) : users.length === 0 ? (
+        <Alert variant="info">
+          No users to display.
+        </Alert>
+      ) : (
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Email</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user.id} onClick={() => handleRowClick(user.id)}>
+                <td>{user.id}</td>
+                <td>{user.email}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      )}
     </Container>
   );
+
 };
 
 export default UserList;

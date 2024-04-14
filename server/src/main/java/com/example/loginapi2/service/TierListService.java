@@ -50,6 +50,7 @@ public class TierListService {
         return tierListRepository.save(tierList);
     }
 
+
     public TierList createTierList(Long userId, TierListDto tierListDto) {
         TierList tierList = new TierList();
         tierList.setName(tierListDto.getName());
@@ -148,6 +149,9 @@ public class TierListService {
     }
 
 
-
-
+    public TierList deleteTierList(Long id) {
+        TierList tierList = tierListRepository.findById(id).orElseThrow();
+        tierListRepository.delete(tierList);
+        return tierList;  
+    }
 }

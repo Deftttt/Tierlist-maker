@@ -8,11 +8,7 @@ const api = axios.create({
 export const geTierListById = (tierlistId) => api.get(`/${tierlistId}`, { headers: authHeader()});
 
 export const getTierlistsForUser = (userId = 'current') => {
-  if (userId === 'current') {
-    return api.get(`/user/current`, { headers: authHeader() });
-  } else {
-    return api.get(`/user/${userId}`, { headers: authHeader() });
-  }
+  return api.get(`/user/${userId}`, { headers: authHeader() });
 };
 
 export const addTier = (tierListId, tierName) => {
@@ -23,6 +19,10 @@ export const addTier = (tierListId, tierName) => {
 
 export const createTierList = (tierListName) => {
   return api.post(``, {name: tierListName}, { headers: authHeader() });
+};
+
+export const deleteTierListById = (tierListId) => {
+  return api.delete(`/${tierListId}`, { headers: authHeader()});
 };
 
 export const updateTierList = (tierlistId, tierlistData) => {

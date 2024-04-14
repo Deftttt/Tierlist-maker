@@ -5,49 +5,50 @@ import AddItem from './AddItem';
 import Navbar from "../Navbar";
 import { Button, Form, Container } from 'react-bootstrap';
 import { geTierListById, updateTierList, addTier, addItem } from '../../services/TierListService';
+import { LoadingSpinner } from '../LoadingSpinner';
 
 function TierListPage() {
   const navigate = useNavigate(); 
   const { tierListId } = useParams();
+  const [loading, setLoading] = useState(true);
   const [tierListData, setTierListData] = useState(null);
-  const [tiers, setTiers] = useState([]);
-  const [items, setItems] = useState([]);
-  
+  const [tierListName, setTierListName] = useState(tierListData?.name);
 
-  useEffect(() => {
-    const fetchTierList = async () => {
-      try {
-        const response = await geTierListById(tierListId);
-        setTierListData(response.data);
-      } catch (error) {
-        console.error('Error fetching tierlist:', error);
-        navigate('/error');
-      }
-    };
-
-    fetchTierList();
-  }, [tierListId]);
-
-
-  useEffect(()=> {
-    saveTierListToDatabase();
-  }, [tierListData])
-
-
-
-  const saveTierListToDatabase = async () => {
+  const fetchTierList = async () => {
     try {
-      await updateTierList(tierListData.id, tierListData);
+      const response = await geTierListById(tierListId);
+      setTierListData(response.data);
     } catch (error) {
-      console.error('Błąd podczas zapisywania obiektu TierList do bazy danych:', error);
+      console.error('Error fetching tierlist:', error);
+      navigate('/error');
+    } finally {
+      setLoading(false);
     }
   };
 
+  const saveTierListToDatabase = async () => {
+    try {
+      console.log('Saving tierlist to database:', tierListData);  
+      await updateTierList(tierListData.id, tierListData);
+    } catch (error) {
+      console.error('Error when saving tierlist to database:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchTierList();
+  }, [tierListId]);
+
+  useEffect(() => {
+    saveTierListToDatabase();
+  }, [tierListName]);
+
+
+
   
-  const handleTierListNameChange = (newName) => {
-    setTierListData(
-      { ...tierListData, name: newName },
-      );
+  const handleTierListNameChange = (newName) => { 
+    setTierListName(newName);
+    setTierListData( { ...tierListData, name: newName } );
   };
   
 
@@ -63,6 +64,7 @@ function TierListPage() {
 
 
   const handleItemsOrderChange = (newTiers) => {
+    console.log(tierListData.tiers);
     setTierListData({ ...tierListData, tiers: newTiers });
   };
 
@@ -74,28 +76,27 @@ function TierListPage() {
   };
 
   const handleItemAdded = (newItem) => {
-    setItems(oldItems => [...oldItems, newItem]);
+    fetchTierList();
   };
   
 
   if (!tierListData) {
-    return <div>Loading...</div>;
+    return (<Container><LoadingSpinner/></Container>);
   }
 
   return (
     <Container>
       <Navbar/>
-      {tierListData ? (
-        <TierList tierListData={tierListData} onTierListNameChange={handleTierListNameChange} onTierNameChange={handleTierNameChange} onItemsOrderChange={handleItemsOrderChange} onAddTier={handleAddTier}/>
+      {loading ? (
+        <LoadingSpinner/> 
       ) : (
-        <p>Loading...</p>
+        <TierList tierListData={tierListData} onTierListNameChange={handleTierListNameChange} onTierNameChange={handleTierNameChange} onItemsOrderChange={handleItemsOrderChange} onAddTier={handleAddTier}/>
       )}
-
+      <Button variant="success" size="lg" className="mx-auto d-block" onClick={saveTierListToDatabase}>Save</Button>
       <AddItem tierListId={tierListData.id} onItemAdded={handleItemAdded}/>
-      
     </Container>
   );
+
 };
 
 export default TierListPage;
-//<button onClick={saveTierListToDatabase}>Zapisz</button>
