@@ -17,6 +17,10 @@ export const addTier = (tierListId, tierName) => {
   return api.post(`/${tierListId}/tier`, {name: tierName}, { headers: authHeader() });
 };
 
+export const deleteTier = (tierListId, tierId) => {
+  return api.delete(`/${tierListId}/tier/${tierId}`, { headers: authHeader() });
+};
+
 export const createTierList = (tierListName) => {
   return api.post(``, {name: tierListName}, { headers: authHeader() });
 };

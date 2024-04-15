@@ -15,7 +15,7 @@ import { Plus } from 'react-bootstrap-icons';
 
 
 
-const TierList = ({ tierListData, onTierListNameChange, onTierNameChange, onItemsOrderChange, onAddTier}) =>  {
+const TierList = ({ tierListData, onTierListNameChange, onTierNameChange, onItemsOrderChange, onAddTier, onDeleteTier}) =>  {
     const [tiers, setTiers] = useState(tierListData.tiers);
     const [tierlistName, setTierlistName] = useState(tierListData.name);
     const [isEditing, setIsEditing] = useState(false);
@@ -170,7 +170,11 @@ const TierList = ({ tierListData, onTierListNameChange, onTierNameChange, onItem
             <input
               type="text"
               value={tierlistName}
-              onChange={(e) => setTierlistName(e.target.value)}
+              onChange={(e) => {
+                if (e.target.value.length <= 40 && e.target.value.length > 0) {
+                  setTierlistName(e.target.value);
+                }
+              }}
               onBlur={handleSaveTierListName}
               autoFocus
               className="mb-3"
@@ -188,14 +192,16 @@ const TierList = ({ tierListData, onTierListNameChange, onTierNameChange, onItem
               {Object.values(tiers).filter(tier => !tier.pool).map((tier) => (   
                 <Row className="mb-3">
                   <Droppable key={tier.tierId} tierlistId={tierListData.id} tierId={tier.tierId} tierName={tier.name} items={tier.items} 
-                  onTierNameChange={(newName) => onTierNameChange(tier.tierId, newName)}/>
+                  onTierNameChange={(newName) => onTierNameChange(tier.tierId, newName)}
+                  onTierDeleteClicked={(tierId) => onDeleteTier(tierId)}/>
                 </Row>
               ))}
       
               {Object.values(tiers).filter(tier => tier.pool).map((tier) => (   
                 <Row className="mb-3">
                   <Droppable key={tier.tierId} tierlistId={tierListData.id} tierId={tier.tierId}  items={tier.items} 
-                  onTierNameChange={(newName) => onTierNameChange(tier.tierId, newName)}/>
+                  onTierNameChange={(newName) => onTierNameChange(tier.tierId, newName)}
+                  onTierDeleteClicked={(tierId) => onDeleteTier(tierId)}/>
                 </Row>
               ))}
             </Container>
@@ -203,7 +209,7 @@ const TierList = ({ tierListData, onTierListNameChange, onTierNameChange, onItem
       
           <div className="d-flex justify-content-center mb-4">
             <Button onClick={handleAddTier} size="lg" className="rounded-pill px-4">
-              <Plus className="mb-1" /> Add Tier
+              <Plus className="mb-1" /> Add new tier
             </Button>
           </div>
       

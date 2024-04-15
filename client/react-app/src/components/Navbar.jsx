@@ -31,16 +31,16 @@ function Navbar() {
         {isLoggedIn ? (
           <li className="nav-item">
             <Button variant="primary" onClick={handleLogoutClicked}>
-              Wyloguj się
+              Logout
             </Button>
           </li>
         ) : (
           <li className="nav-item">
             <Button variant="primary" className="mx-2" onClick={handleLoginClicked}>
-              Zaloguj się
+              Sign in
             </Button>
             <Button variant="secondary" className="mx-2" onClick={handleRegisterClicked}>
-              Zarejestruj się
+              Sign up
             </Button>
           </li>
         )}

@@ -26,14 +26,14 @@ function AddItem({ tierListId, onItemAdded }) {
         <Col md="4">
           <Form onSubmit={handleSubmit} className="d-flex flex-column align-items-center mb-4">
             <FormGroup className="w-100">
-              <Form.Label>Choose item name:</Form.Label>
+              <Form.Label>Enter name:</Form.Label>
               <FormControl type="text" value={itemName} onChange={handleNameChange} placeholder="Item name" />
             </FormGroup>
             <FormGroup className="w-100">
-              <Form.Label>Load images:</Form.Label>
+              <Form.Label>Select images:</Form.Label>
               <FormControl type="file" multiple onChange={handleFileChange} />
             </FormGroup>
-            <Button type="submit" className="mt-3">Add Item</Button>
+            <Button type="submit" className="mt-3">Add new item</Button>
           </Form>
         </Col>
       </Row>

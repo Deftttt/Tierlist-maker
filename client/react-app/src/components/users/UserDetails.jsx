@@ -38,23 +38,22 @@ function UserDetails() {
   if (!user) {
     return <div>Loading...</div>;
   }
-
+  
   return (
     <Container>
       <Navbar/>
       <Row className="justify-content-md-center">
         <Col xs={12} md={8}>
           <h2>User Details</h2>
-          <Card>
+          <Card className="border-0 shadow-sm">
             <Card.Body>
               <Card.Title>{user.email}</Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">ID: {user.id}</Card.Subtitle>
               <Card.Text>
                 Description: {user.extraAtribute}
               </Card.Text>
               <div className="d-flex justify-content-around mt-3">
-                <Button variant="primary" onClick={handleUpdateClick}>Update User</Button>
-                <Button variant="secondary" onClick={handleShowTierlistClick}>Show tierlists of this user</Button>
+                <Button variant="primary" onClick={handleUpdateClick}>Change data</Button>
+                <Button variant="secondary" onClick={handleShowTierlistClick}>Show tierlists</Button>
               </div>
             </Card.Body>
           </Card>

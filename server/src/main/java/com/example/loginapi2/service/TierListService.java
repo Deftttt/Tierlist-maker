@@ -1,5 +1,6 @@
 package com.example.loginapi2.service;
 
+import com.example.loginapi2.exception.DeletingTierPoolException;
 import com.example.loginapi2.model.Item;
 import com.example.loginapi2.model.Tier;
 import com.example.loginapi2.model.TierList;
@@ -153,5 +154,21 @@ public class TierListService {
         TierList tierList = tierListRepository.findById(id).orElseThrow();
         tierListRepository.delete(tierList);
         return tierList;  
+    }
+
+    public TierList deleteTierFromTierList(Long id, Long tierId) {
+        TierList tierList = tierListRepository.findById(id).orElseThrow();
+
+        List<Tier> tiers = tierList.getTiers();
+        Tier tier = tierRepository.findById(tierId).orElseThrow();
+        if (tier.isPool()) {
+            tier.setItems(new ArrayList<>()); // Clear all items in the pool
+            tierRepository.save(tier); // Save the updated tier
+        } else {
+            tiers.remove(tier);
+            tierList.setTiers(tiers);
+            tierRepository.delete(tier);
+        }
+        return tierListRepository.save(tierList);
     }
 }

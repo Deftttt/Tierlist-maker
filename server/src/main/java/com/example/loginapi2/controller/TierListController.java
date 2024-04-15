@@ -49,14 +49,20 @@ public class TierListController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN') or @tierListService.isTierListOwnedByUser(#id, principal.userId)")
-    public TierList updateTierList(@PathVariable Long id, @RequestBody TierListDto tierListDto) {
+    public TierList updateTierList(@PathVariable Long id, @Valid @RequestBody TierListDto tierListDto) {
         return tierListService.updateTierList(id, tierListDto);
     }
 
     @PostMapping("/{id}/tier")
     @PreAuthorize("hasAuthority('ADMIN') or @tierListService.isTierListOwnedByUser(#id, principal.userId)")
-    public TierList addTier(@PathVariable Long id, @RequestBody TierDto tierDto) {
+    public TierList addTier(@PathVariable Long id, @Valid @RequestBody TierDto tierDto) {
         return tierListService.addTierToTierList(id, tierDto);
+    }
+
+    @DeleteMapping("/{id}/tier/{tierId}")
+    @PreAuthorize("hasAuthority('ADMIN') or @tierListService.isTierListOwnedByUser(#id, principal.userId)")
+    public TierList deleteTier(@PathVariable Long id, @PathVariable Long tierId) {
+        return tierListService.deleteTierFromTierList(id, tierId);
     }
 
     @PostMapping("/{id}/items")

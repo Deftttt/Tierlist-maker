@@ -87,7 +87,7 @@ function UserUpdateForm() {
   
             <div className="pt-3 text-center">
             <Button variant="primary" type="submit">
-              Update User
+              Update
             </Button>
           </div>
           </Form>

@@ -29,27 +29,23 @@ function Home() {
     <Container>
       <Navbar />
       {isLoggedIn ? (
-      <h1>Witaj na stronie głównej, {user?.email}!</h1>
+      <><h1>Welcome to the home page!</h1>
+      <h4>Logged in as {user?.email}!</h4></>
       ) : (
-        <h1>Witaj na stronie głównej!</h1>
+        <h1>Welcome to the home page!</h1>
       )}
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non
-        vestibulum sapien. Aliquam in nibh sed elit luctus lacinia. Morbi
-        pulvinar dolor sit amet sapien dictum ultrices. Nullam consectetur
-        eros quis orci fermentum, non ultricies lorem bibendum. Integer
-        convallis, velit et efficitur dignissim, purus orci varius mauris,
-        non tincidunt odio justo ac dui.
+      Create your new tierlist or browse existing ones by selecting the appropriate option from the menu below.
       </p>
       {isLoggedIn && (
         <div className="mt-4">
           <Link to="/tierlists/create">
             <Button variant="primary" className="me-2">
-              Stwórz tierlistę
+              Create new tierlist
             </Button>
           </Link>
-          <Link to={`/tierlists/user/${userId}`}>
-           <Button variant="secondary">Moje tierlisty</Button>
+          <Link to={`/users/${userId}`}>
+           <Button variant="secondary">Show my profile</Button>
           </Link>
         </div>
       )}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { createTierList } from '../../services/TierListService';
-import { Button, Container, Form } from 'react-bootstrap';
+import { Button, Container, Form, Row, Col } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 import Navbar from "../Navbar";
 
@@ -25,28 +25,35 @@ const CreateTierListPage = () => {
   return (
     <Container>
       <Navbar/>
-      <h1>Utwórz nową tierlistę</h1>
-      <Form>
-        <Form.Group controlId="tierListName" className="mb-3">
-          <Form.Label>Nazwa tierlisty</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Wprowadź nazwę tierlisty"
-            value={tierListName}
-            onChange={(e) => setTierListName(e.target.value)}
-            isInvalid={error?.errors?.name}
-          />
-
-          <Form.Control.Feedback type="invalid">
-              {error?.errors?.name}
-          </Form.Control.Feedback>
-          
-        </Form.Group>
-        <Button variant="primary" onClick={handleCreateTierList}>
-          Stwórz tierlistę
-        </Button>
-      </Form>
-      </Container>
+      <Row className="justify-content-center">
+        <Col md={6}>
+          <div className="d-flex flex-column align-items-center">
+            <h1 className="text-center mb-4">Create new tierlist</h1>
+            <Form className="w-100">
+              <Form.Group controlId="tierListName" className="mb-3">
+                <Form.Control
+                  type="text"
+                  placeholder="Enter tierlist name"
+                  value={tierListName}
+                  onChange={(e) => setTierListName(e.target.value)}
+                  isInvalid={error?.errors?.name}
+                />
+  
+                <Form.Control.Feedback type="invalid">
+                    {error?.errors?.name}
+                </Form.Control.Feedback>
+                
+              </Form.Group>
+              <div className="text-center">
+                <Button variant="primary" onClick={handleCreateTierList}>
+                  Create tierlist
+                </Button>
+              </div>
+            </Form>
+          </div>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

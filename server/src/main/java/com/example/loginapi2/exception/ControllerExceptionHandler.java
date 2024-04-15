@@ -28,6 +28,11 @@ public class ControllerExceptionHandler {
         return new ResponseEntity<>(new ErrorDetails(new Date(), exception.getMessage(), request.getDescription(false)), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(DeletingTierPoolException.class)
+    public ResponseEntity<?> deletingTierPoolExceptionHandling(Exception exception, WebRequest request) {
+        return new ResponseEntity<>(new ErrorDetails(new Date(), exception.getMessage(), request.getDescription(false)), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> methodArgumentNotValidExceptionHandling(MethodArgumentNotValidException exception, WebRequest request) {
         Map<String, String> errors = new HashMap<>();

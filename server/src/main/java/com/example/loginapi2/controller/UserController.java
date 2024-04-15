@@ -5,6 +5,7 @@ import com.example.loginapi2.model.dto.UserDto;
 import com.example.loginapi2.security.UserPrincipal;
 import com.example.loginapi2.service.AuthService;
 import com.example.loginapi2.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,14 +34,14 @@ public class UserController {
     }
 
     @PostMapping("")
-    public ResponseEntity<User> addUser(@RequestBody UserDto userDto){
+    public ResponseEntity<User> addUser(@Valid @RequestBody UserDto userDto){
         User user = userService.addUser(userDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN') or #id == principal.userId")
-    public User updateUser(@PathVariable Long id, @AuthenticationPrincipal UserPrincipal principal, @RequestBody UserDto userDto){
+    public User updateUser(@PathVariable Long id, @AuthenticationPrincipal UserPrincipal principal, @Valid  @RequestBody UserDto userDto){
         userService.validateEmail(id, userDto.getEmail());
         return userService.updateUser(id, userDto);
     }

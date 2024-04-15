@@ -3,8 +3,8 @@ import { useParams, useNavigate  } from 'react-router-dom';
 import TierList from './TierList';
 import AddItem from './AddItem';
 import Navbar from "../Navbar";
-import { Button, Form, Container } from 'react-bootstrap';
-import { geTierListById, updateTierList, addTier, addItem } from '../../services/TierListService';
+import { Button, Alert, Container } from 'react-bootstrap';
+import { geTierListById, updateTierList, addTier, deleteTier } from '../../services/TierListService';
 import { LoadingSpinner } from '../LoadingSpinner';
 
 function TierListPage() {
@@ -13,6 +13,7 @@ function TierListPage() {
   const [loading, setLoading] = useState(true);
   const [tierListData, setTierListData] = useState(null);
   const [tierListName, setTierListName] = useState(tierListData?.name);
+  const [error, setError] = useState(null);
 
   const fetchTierList = async () => {
     try {
@@ -32,6 +33,7 @@ function TierListPage() {
       await updateTierList(tierListData.id, tierListData);
     } catch (error) {
       console.error('Error when saving tierlist to database:', error);
+      setError(error.response.data); 
     }
   };
 
@@ -39,6 +41,7 @@ function TierListPage() {
     fetchTierList();
   }, [tierListId]);
 
+  
   useEffect(() => {
     saveTierListToDatabase();
   }, [tierListName]);
@@ -49,6 +52,7 @@ function TierListPage() {
   const handleTierListNameChange = (newName) => { 
     setTierListName(newName);
     setTierListData( { ...tierListData, name: newName } );
+
   };
   
 
@@ -75,6 +79,13 @@ function TierListPage() {
       setTierListData({ ...tierListData, tiers: updatedTiers });
   };
 
+  const handleDeleteTier = async (tierId) => {
+    const response = await deleteTier(tierListData.id, tierId);
+    console.log(response.data.tiers);
+    const updatedTiers = response.data.tiers;
+    setTierListData({ ...tierListData, tiers: updatedTiers });
+};
+
   const handleItemAdded = (newItem) => {
     fetchTierList();
   };
@@ -87,12 +98,13 @@ function TierListPage() {
   return (
     <Container>
       <Navbar/>
+      {error && <Alert variant="danger">{error.errors?.name}</Alert>}
       {loading ? (
         <LoadingSpinner/> 
       ) : (
-        <TierList tierListData={tierListData} onTierListNameChange={handleTierListNameChange} onTierNameChange={handleTierNameChange} onItemsOrderChange={handleItemsOrderChange} onAddTier={handleAddTier}/>
+        <TierList tierListData={tierListData} onTierListNameChange={handleTierListNameChange} onTierNameChange={handleTierNameChange} onItemsOrderChange={handleItemsOrderChange} onAddTier={handleAddTier} onDeleteTier={handleDeleteTier}/>
       )}
-      <Button variant="success" size="lg" className="mx-auto d-block" onClick={saveTierListToDatabase}>Save</Button>
+      <Button variant="success" size="lg" className="mx-auto d-block mb-2" onClick={saveTierListToDatabase}>Save tierlist</Button>
       <AddItem tierListId={tierListData.id} onItemAdded={handleItemAdded}/>
     </Container>
   );

@@ -58,11 +58,11 @@ function TierlistsPage() {
     return (
       <Container>
         <Navbar/>
-        <h1 className="pb-3">Lista tierlist użytkownika {user?.email}</h1>
+        <h1 className="pb-3">User's tier list {user?.email}</h1>
         {loading ? (<LoadingSpinner/>) : tierlists.length === 0 ? (
-          <><Alert variant="info">Nie ma żadnych tierlist do wyświetlenia.</Alert><Link to="/tierlists/create">
+          <><Alert variant="info">There are no tierlists to display.</Alert><Link to="/tierlists/create">
             <Button variant="primary" className="me-2">
-              Stwórz tierlistę
+              Create new tierlist
             </Button>
           </Link></>) : 
           (
@@ -78,7 +78,7 @@ function TierlistsPage() {
                     to={`/tierlists/${tierlist.id}`} 
                     className="text-decoration-none text-dark flex-grow-1 text-truncate pr-3"
                   >
-                    <li className="py-1">{tierlist.name}</li>
+                    <li className="py-1"><strong>{tierlist.name}</strong></li>
                   </Link>
                   <Button 
                     variant="danger" 
