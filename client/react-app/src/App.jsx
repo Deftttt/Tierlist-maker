@@ -1,16 +1,15 @@
 import React from 'react';
-import UserList from './components/users/UserList';
-import UserDetails from './components/users/UserDetails';
-import UserUpdateForm from './components/users/UserUpdateForm';
+import UserList from './pages/user/UserList';
+import UserDetails from './pages/user/UserDetails';
+import UserUpdateForm from './pages/user/UserUpdateForm';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import HomePage from './components/home/HomePage';
-import AdminPage from './components/admin/AdminPage';
-import Login from './components/home/Login';
-import Register from './components/home/Register';
-import TierListPage from './components/tierlist/TierListPage';
-import UserTierListsPage from './components/tierlist/UserTierlistsPage';
-import CreateTierListPage from './components/tierlist/CreateTierListPage';
-import ErorPage from './components/error/ErrorPage';
+import HomePage from './pages/home/HomePage';
+import Login from './pages/home/Login';
+import Register from './pages/home/Register';
+import TierListPage from './pages/tierlist/TierListPage';
+import UserTierListsPage from './pages/tierlist/UserTierlistsPage';
+import CreateTierListPage from './pages/tierlist/CreateTierListPage';
+import ErorPage from './pages/ErrorPage';
 
 
 function App() {
@@ -24,7 +23,6 @@ function App() {
             <Route path="/users" element={<UserList />} />
             <Route path="/users/:userId" element={<UserDetails />} />
             <Route path="/users/:userId/update" element={<UserUpdateForm />}/>
-            <Route path="/admin" element={<AdminPage />} />
             <Route path="/tierlists/:tierListId" element={<TierListPage />} />
             <Route path="/tierlists/user/:userId" element={<UserTierListsPage />} />
             <Route path="/tierlists/create" element={<CreateTierListPage />} />

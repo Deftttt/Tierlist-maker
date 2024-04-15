@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { createTierList } from '../../services/TierListService';
 import { Button, Container, Form, Row, Col } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
-import Navbar from "../Navbar";
+import Navbar from "../../components/Navbar";
 
 const CreateTierListPage = () => {
   const [tierListName, setTierListName] = useState('');

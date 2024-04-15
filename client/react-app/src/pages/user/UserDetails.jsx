@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import { Card, Button, Container, Row, Col } from 'react-bootstrap';
 import { getUserById } from '../../services/UserService';
-import Navbar from '../Navbar';
+import Navbar from '../../components/Navbar';
 
 
 function UserDetails() {

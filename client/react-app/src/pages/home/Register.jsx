@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { register } from '../../services/AuthService';
 import { Button, Form, Container, Alert, Row, Col } from 'react-bootstrap';
-import Navbar from "../Navbar"; 
+import Navbar from "../../components/Navbar"; 
 
 function Register() {
     const [email, setEmail] = useState("");

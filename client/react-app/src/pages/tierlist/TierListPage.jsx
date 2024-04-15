@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate  } from 'react-router-dom';
-import TierList from './TierList';
-import AddItem from './AddItem';
-import Navbar from "../Navbar";
+import TierList from '../../components/tierlist/TierList';
+import AddItem from '../../components/tierlist/AddItem';
+import Navbar from "../../components/Navbar";
 import { Button, Alert, Container } from 'react-bootstrap';
 import { geTierListById, updateTierList, addTier, deleteTier } from '../../services/TierListService';
-import { LoadingSpinner } from '../LoadingSpinner';
+import { LoadingSpinner } from '../../components/LoadingSpinner';
 
 function TierListPage() {
   const navigate = useNavigate(); 

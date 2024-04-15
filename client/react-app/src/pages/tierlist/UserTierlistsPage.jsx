@@ -3,8 +3,8 @@ import { Link, useParams, useNavigate  } from 'react-router-dom';
 import { Container, Row, Col, ListGroup, Alert, Button } from 'react-bootstrap';
 import { getTierlistsForUser, deleteTierListById } from '../../services/TierListService';
 import { getUserById } from '../../services/UserService';
-import Navbar from "../Navbar";
-import { LoadingSpinner } from '../LoadingSpinner';
+import Navbar from "../../components/Navbar";
+import { LoadingSpinner } from '../../components/LoadingSpinner';
 import { Trash } from 'react-bootstrap-icons';
 
 

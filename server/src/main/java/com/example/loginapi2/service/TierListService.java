@@ -162,8 +162,8 @@ public class TierListService {
         List<Tier> tiers = tierList.getTiers();
         Tier tier = tierRepository.findById(tierId).orElseThrow();
         if (tier.isPool()) {
-            tier.setItems(new ArrayList<>()); // Clear all items in the pool
-            tierRepository.save(tier); // Save the updated tier
+            tier.setItems(new ArrayList<>());
+            tierRepository.save(tier);
         } else {
             tiers.remove(tier);
             tierList.setTiers(tiers);

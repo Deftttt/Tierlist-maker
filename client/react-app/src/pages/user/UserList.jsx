@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { getUsers } from '../../services/UserService';
 import { Container, Table, Alert, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import Navbar from '../Navbar';
-import { LoadingSpinner } from '../LoadingSpinner';
+import Navbar from '../../components/Navbar';
+import { LoadingSpinner } from '../../components/LoadingSpinner';
 
 
 function UserList() {

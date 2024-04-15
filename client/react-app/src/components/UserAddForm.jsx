@@ -22,10 +22,8 @@ function UserAddForm() {
     try {
       const response = await addUser(formData);
       console.log('User added successfully:', response.data);
-      // Dodaj kod obsługujący potwierdzenie dodania użytkownika
     } catch (error) {
       console.error('Error adding user:', error);
-      // Dodaj kod obsługujący błąd dodawania użytkownika
     }
   };
 

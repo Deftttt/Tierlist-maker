@@ -57,3 +57,14 @@ export const getUserIdFromToken = () => {
     return null;
   }
 };
+
+export const getUserRolesFromToken = () => {
+  const token = JSON.parse(localStorage.getItem("accessToken"));
+
+  if (token) {
+    const decodedToken = jwtDecode(token);
+    return decodedToken.a; 
+  } else {
+    return null;
+  }
+};
